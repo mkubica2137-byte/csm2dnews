@@ -388,19 +388,80 @@
             text-shadow: 1px 1px #000;
         }
 
+        /* =========================================
+           EASTER EGG STYLES (NEW)
+           ========================================= */
+        #easter-egg-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 20000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ff0000;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .egg-text {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: textGlitch 0.1s infinite;
+            text-shadow: 5px 5px #550000;
+        }
+
+        @keyframes textGlitch {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            50% { transform: translate(-2px, -2px) rotate(1deg); opacity: 0.8; }
+            100% { transform: translate(1px, -1px) rotate(-1deg); }
+        }
+
+        .buggy-site {
+            animation: jitter 0.05s infinite !important;
+            filter: invert(1) contrast(200%) hue-rotate(180deg) !important;
+        }
+
+        @keyframes jitter {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(5px, -5px); }
+            50% { transform: translate(-5px, 5px); }
+            75% { transform: translate(2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        #egg-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
         /* Mobile Adjustments for XP Theme */
         @media (max-width: 600px) {
             body.theme-xp .update-card { border-radius: 0; border-width: 2px; }
             body.theme-xp .xp-title-bar { border-radius: 0; }
             body.theme-xp .card-content-inner { margin: 5px; padding: 10px; }
+            .egg-text { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
+<div id="easter-egg-overlay">
+    <video id="egg-video" loop muted playsinline>
+        <source src="AQMN9FMmKq17NBYYmub4I_btmbib0jjEB27C-71J51Ny7KllljoUGEvHE5hA-aPVeVuKjKtKwJijA5MOJYDLpPREEDtvyEZE_uV4XiAPgg.mp4" type="video/mp4">
+    </video>
+    <div class="egg-text">NOT SUPPOSED TO BE HERE</div>
+</div>
+
 <div id="custom-cursor"></div>
 
-<div class="container">
+<div class="container" id="main-container">
     <div class="header">
         <img src="title.png" alt="2D Logo" class="logo" id="theme-toggle-btn">
     </div>
@@ -465,34 +526,45 @@
 </div>
 
 <script>
-    // Custom Cursor Logic
     const cursor = document.getElementById('custom-cursor');
-
     document.addEventListener('mousemove', (e) => {
         cursor.style.display = 'block';
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     });
 
-    document.addEventListener('mouseleave', () => {
-        cursor.style.display = 'none';
-    });
-
-    document.addEventListener('mousedown', () => {
-        cursor.style.transform = 'scale(0.85)';
-    });
-
-    document.addEventListener('mouseup', () => {
-        cursor.style.transform = 'scale(1)';
-    });
-
-    // Theme Toggling Logic
     const themeBtn = document.getElementById('theme-toggle-btn');
-    
     themeBtn.addEventListener('click', () => {
-        // Toggles the "theme-xp" class on the body tag
         document.body.classList.toggle('theme-xp');
     });
+
+    // =========================================
+    // UPDATED EASTER EGG LOGIC
+    // =========================================
+    function runEasterEgg() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        
+        const overlay = document.getElementById('easter-egg-overlay');
+        const container = document.getElementById('main-container');
+        const video = document.getElementById('egg-video');
+
+        // Logic: Trigger at 3:49 and last until 4:00 (while hour is 3 and minute >= 49)
+        if (hours === 3 && minutes >= 49) {
+            overlay.style.display = 'flex';
+            container.classList.add('buggy-site');
+            if (video.paused) video.play();
+            document.title = "W̴H̶Y̵ ̴A̷R̵E̷ ̶Y̵O̷U̵ ̷H̸E̵R̶E̵?̵";
+        } else {
+            overlay.style.display = 'none';
+            container.classList.remove('buggy-site');
+            video.pause();
+            document.title = "2D - Latest Updates";
+        }
+    }
+
+    setInterval(runEasterEgg, 1000);
 </script>
 
 </body>
