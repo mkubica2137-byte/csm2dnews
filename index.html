@@ -7,12 +7,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Matching the Crimson from your logo and the dark grey from the art */
             --primary: #a62a3e; 
-            --accent: #ff8c00; /* Explosion orange */
+            --accent: #ff8c00; 
             --bg: #1a1a1a;
             --card-bg: rgba(35, 35, 35, 0.9);
             --text: #f0f0f0;
+            --offset-x: -2px;   /* Positive moves right, negative moves left */
+            --offset-y: -2px;   /* Positive moves down, negative moves up */
+            --cursor-z: 9999;   /* The Z-index (layer depth) */
+        }
+
+        /* Hides the system cursor everywhere */
+        html, body, a, button {
+            cursor: none !important;
+        }
+
+        #custom-cursor {
+            width: 48px; 
+            height: 48px;
+            position: fixed;
+            pointer-events: none;
+            
+            /* Z-Offset */
+            z-index: var(--cursor-z);
+            
+            background-image: url('cursor.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: none;
+            filter: drop-shadow(0 0 5px rgba(255, 218, 0, 0.6));
+            
+            /* X & Y Offsets */
+            margin-left: var(--offset-x);
+            margin-top: var(--offset-y);
+            
+            /* Transition for the scale effect only */
+            transition: transform 0.1s ease;
+            /* Ensure the transform-origin is the tip (top-left) */
+            transform-origin: top left;
         }
 
         body {
@@ -25,6 +57,7 @@
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            overflow-x: hidden;
         }
 
         .container {
@@ -49,7 +82,7 @@
             height: 300px;
             object-fit: cover;
             border-radius: 12px;
-            margin-bottom: -60px; /* Overlap effect */
+            margin-bottom: -60px;
             position: relative;
             z-index: 2;
             border: 1px solid rgba(255,255,255,0.1);
@@ -61,7 +94,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 80px 50px 50px 50px; /* Extra top padding for overlap */
+            padding: 80px 50px 50px 50px;
             position: relative;
             z-index: 1;
         }
@@ -138,10 +171,14 @@
         @media (max-width: 600px) {
             .update-card { padding: 60px 20px 30px 20px; }
             h2 { font-size: 1.5rem; }
+            #custom-cursor { display: none !important; }
+            html, body { cursor: auto !important; }
         }
     </style>
 </head>
 <body>
+
+<div id="custom-cursor"></div>
 
 <div class="container">
     <div class="header">
@@ -182,6 +219,31 @@
         &copy; 2026 2D Development Team. Powered by GitHub Pages.
     </div>
 </div>
+
+<div id="custom-cursor"></div>
+
+<script>
+    const cursor = document.getElementById('custom-cursor');
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.display = 'block';
+        // X and Y coordinates from the mouse
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    document.addEventListener('mouseleave', () => {
+        cursor.style.display = 'none';
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursor.style.transform = 'scale(0.85)';
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursor.style.transform = 'scale(1)';
+    });
+</script>
 
 </body>
 </html>
