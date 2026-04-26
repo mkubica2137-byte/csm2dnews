@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D - Latest Updates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Matching the Crimson from your logo and the dark grey from the art */
+            --primary: #a62a3e; 
+            --accent: #ff8c00; /* Explosion orange */
+            --bg: #1a1a1a;
+            --card-bg: rgba(35, 35, 35, 0.9);
+            --text: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('coverart.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            max-width: 300px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(166, 42, 62, 0.5));
+        }
+
+        .cover-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: -60px; /* Overlap effect */
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+
+        .update-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 80px 50px 50px 50px; /* Extra top padding for overlap */
+            position: relative;
+            z-index: 1;
+        }
+
+        .version-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 0.8rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .section-title {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 900;
+            margin-top: 40px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #ccc;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.4;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .update-card { padding: 60px 20px 30px 20px; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="title.png" alt="2D Logo" class="logo">
+    </div>
+
+    <img src="coverart.png" alt="Update Cover" class="cover-img">
+
+    <div class="update-card">
+        <div class="version-info">
+            <span class="badge">Update 2.0.0</span>
+            <span style="opacity: 0.6;">April 26, 2026</span>
+        </div>
+        
+        <h2>Hell Dimension</h2>
+        <p>A new Dimension has been added as well as fixes and patches to the game</p>
+
+        <h3 class="section-title">New Mechanics</h3>
+        <ul>
+            <li><strong>Keypad:</strong> Ä̶̡́ ̷̙͝n̴̡͆e̸̹̋w̶͔̎ ̷͖̄m̷̼̒i̸͝ͅs̶̬̊t̷̘͐ẹ̷͠r̶̯͌ĭ̴̦ò̶̩ự̶s̸̜̃ ̷̯̕k̸̢̈́ẻ̴͎ý̵̪p̴͖͋ą̴͘d̵̖̀ ̵͚̏t̸̞̾h̵͚̉a̴͔̓t̵̡̕ ̶̨͒h̴͎͑i̸̥̊ḏ̵̀e̷̪͐s̶̻̉ ̵͖͋i̴̩͆t̸͕̀s̸͎̈ ̴̦̌s̶̬̔é̸̘c̴͕͛r̷̺̿ě̵̜t̵͙͘s̵̙̊.</li>
+            <li><strong>Hell Dimension & Items:</strong> New hell items added and bots and ambient.</li>
+        </ul>
+
+        <h3 class="section-title">Visuals & Performance</h3>
+        <ul>
+            <li>Optimized Pixel Rendering</li>
+            <li>Added options menu thats still Work in Progress</li>
+        </ul>
+
+        <h3 class="section-title">Bug Fixes</h3>
+        <ul>
+            <li>Fixed Exp System.</li>
+            <li>Fixed Some Errors In Other Features.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 2D Development Team. Powered by GitHub Pages.
+    </div>
+</div>
+
+</body>
+</html>
