@@ -6,45 +6,22 @@
     <title>2D - Latest Updates</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           BASE STYLES (Modern Dark Theme)
+           ========================================= */
         :root {
             --primary: #a62a3e; 
             --accent: #ff8c00; 
             --bg: #1a1a1a;
             --card-bg: rgba(35, 35, 35, 0.9);
             --text: #f0f0f0;
-            --offset-x: -2px;   /* Positive moves right, negative moves left */
-            --offset-y: -2px;   /* Positive moves down, negative moves up */
-            --cursor-z: 9999;   /* The Z-index (layer depth) */
+            --offset-x: -2px;
+            --offset-y: -2px;
+            --cursor-z: 9999;
         }
 
-        /* Hides the system cursor everywhere */
         html, body, a, button {
             cursor: none !important;
-        }
-
-        #custom-cursor {
-            width: 48px; 
-            height: 48px;
-            position: fixed;
-            pointer-events: none;
-            
-            /* Z-Offset */
-            z-index: var(--cursor-z);
-            
-            background-image: url('cursor.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            display: none;
-            filter: drop-shadow(0 0 5px rgba(255, 218, 0, 0.6));
-            
-            /* X & Y Offsets */
-            margin-left: var(--offset-x);
-            margin-top: var(--offset-y);
-            
-            /* Transition for the scale effect only */
-            transition: transform 0.1s ease;
-            /* Ensure the transform-origin is the tip (top-left) */
-            transform-origin: top left;
         }
 
         body {
@@ -58,6 +35,24 @@
             background-attachment: fixed;
             background-position: center;
             overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        #custom-cursor {
+            width: 48px; 
+            height: 48px;
+            position: fixed;
+            pointer-events: none;
+            z-index: var(--cursor-z);
+            background-image: url('cursor.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: none;
+            filter: drop-shadow(0 0 5px rgba(255, 218, 0, 0.6));
+            margin-left: var(--offset-x);
+            margin-top: var(--offset-y);
+            transition: transform 0.1s ease;
+            transform-origin: top left;
         }
 
         .container {
@@ -75,18 +70,33 @@
             max-width: 300px;
             height: auto;
             filter: drop-shadow(0 0 10px rgba(166, 42, 62, 0.5));
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
 
+        /* Hover effect to indicate it's clickable */
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.8));
+        }
+
+        /* We moved the image inside the card wrapper to help XP mode, 
+           so we use negative margin to pull it up in modern mode */
         .cover-img {
             width: 100%;
             height: 300px;
             object-fit: cover;
             border-radius: 12px;
-            margin-bottom: -60px;
+            margin-top: -100px; 
+            margin-bottom: 30px;
             position: relative;
             z-index: 2;
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            display: block;
+        }
+
+        .update-card-wrapper {
+            margin-top: 100px; /* Space for the pulled-up image */
         }
 
         .update-card {
@@ -94,9 +104,14 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 80px 50px 50px 50px;
+            padding: 0 50px 50px 50px;
             position: relative;
             z-index: 1;
+        }
+
+        /* Hidden XP Elements in Modern Mode */
+        .xp-title-bar, .xp-taskbar {
+            display: none;
         }
 
         .version-info {
@@ -113,12 +128,15 @@
             border-radius: 4px;
             font-weight: 900;
             font-size: 0.8rem;
+            border: none;
+            box-shadow: none;
         }
 
         h2 {
             font-size: 2.2rem;
             margin: 0;
             color: #fff;
+            font-weight: 700;
         }
 
         .section-title {
@@ -131,6 +149,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
         .section-title::after {
@@ -150,6 +170,7 @@
             padding-left: 25px;
             position: relative;
             color: #ccc;
+            font-size: 1rem;
         }
 
         li::before {
@@ -169,10 +190,209 @@
         }
 
         @media (max-width: 600px) {
-            .update-card { padding: 60px 20px 30px 20px; }
+            .update-card { padding: 0 20px 30px 20px; }
             h2 { font-size: 1.5rem; }
             #custom-cursor { display: none !important; }
             html, body { cursor: auto !important; }
+        }
+
+
+        /* =========================================
+           WINDOWS XP THEME OVERRIDES
+           ========================================= */
+        body.theme-xp {
+            background-image: none;
+            background-color: #004e98;
+            font-family: Tahoma, 'Segoe UI', Arial, sans-serif;
+            color: #000000;
+            padding-bottom: 40px; /* Taskbar space */
+        }
+
+        body.theme-xp .container {
+            max-width: 800px;
+            padding: 20px 15px;
+        }
+
+        body.theme-xp .logo {
+            max-width: 250px;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
+        }
+        
+        body.theme-xp .logo:hover {
+            transform: none; /* Disable modern hover scale */
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.8)) brightness(1.2);
+        }
+
+        body.theme-xp .update-card-wrapper {
+            margin-top: 0;
+        }
+
+        body.theme-xp .update-card {
+            background-color: #ece9d8;
+            border: 3px solid #0058e6;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 0;
+            backdrop-filter: none;
+        }
+
+        /* Un-hide XP Elements */
+        body.theme-xp .xp-title-bar {
+            display: flex;
+            background: linear-gradient(to bottom, #0058e6 0%, #3a93ff 8%, #288eff 40%, #127dff 88%, #0366e8 100%);
+            padding: 4px 8px;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .title-bar-text {
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px #0f1089;
+        }
+
+        .title-bar-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .window-btn {
+            width: 21px;
+            height: 21px;
+            background: #c8c8c8;
+            border: 1px solid white;
+            border-right-color: #444;
+            border-bottom-color: #444;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 10px;
+            color: black;
+            box-shadow: inset -1px -1px 2px rgba(0,0,0,0.2);
+        }
+
+        .btn-close {
+            background: linear-gradient(to bottom, #e06053, #c9402f);
+            color: white;
+            border-color: #fff #5a1a15 #5a1a15 #fff;
+        }
+
+        body.theme-xp .card-content-inner {
+            background: #ffffff;
+            border: 2px solid;
+            border-color: #808080 #ffffff #ffffff #808080;
+            padding: 20px;
+            margin: 15px;
+        }
+
+        body.theme-xp .cover-img {
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-radius: 0;
+            box-shadow: none;
+            border: 1px solid #7f9db9;
+            height: 250px;
+        }
+
+        body.theme-xp .version-info {
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 10px;
+        }
+
+        body.theme-xp .badge {
+            background: linear-gradient(to bottom, #f2f2f2, #e3e3e3);
+            color: #000;
+            border: 1px solid #003c74;
+            border-radius: 3px;
+            box-shadow: inset 1px 1px 0px #fff;
+        }
+        
+        body.theme-xp .version-info span:last-child {
+            color: #666;
+            opacity: 1 !important;
+        }
+
+        body.theme-xp h2 {
+            color: #003399;
+            font-weight: normal;
+        }
+
+        body.theme-xp .section-title {
+            color: #0058e6;
+            text-transform: none;
+            border-bottom: 1px solid #0058e6;
+            padding-bottom: 3px;
+        }
+
+        body.theme-xp .section-title::after {
+            display: none;
+        }
+
+        body.theme-xp ul {
+            list-style: square;
+            padding-left: 20px;
+        }
+
+        body.theme-xp li {
+            color: #333;
+            padding-left: 0;
+            font-size: 0.95rem;
+        }
+
+        body.theme-xp li::before {
+            display: none; /* Hide modern bullet */
+        }
+
+        body.theme-xp .footer {
+            display: none; /* Hide modern footer, replaced by taskbar */
+        }
+
+        body.theme-xp .xp-taskbar {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%);
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid #0042b0;
+        }
+
+        .start-btn {
+            background: linear-gradient(to bottom, #34a544 0%, #3a9d41 100%);
+            height: 100%;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-style: italic;
+            border-right: 1px solid #1a6624;
+            box-shadow: 2px 0 3px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.4);
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .taskbar-text {
+            color: white;
+            font-size: 0.8rem;
+            margin-left: auto;
+            margin-right: 15px;
+            text-shadow: 1px 1px #000;
+        }
+
+        /* Mobile Adjustments for XP Theme */
+        @media (max-width: 600px) {
+            body.theme-xp .update-card { border-radius: 0; border-width: 2px; }
+            body.theme-xp .xp-title-bar { border-radius: 0; }
+            body.theme-xp .card-content-inner { margin: 5px; padding: 10px; }
         }
     </style>
 </head>
@@ -182,37 +402,52 @@
 
 <div class="container">
     <div class="header">
-        <img src="title.png" alt="2D Logo" class="logo">
+        <img src="title.png" alt="2D Logo" class="logo" id="theme-toggle-btn">
     </div>
 
-    <img src="coverart.png" alt="Update Cover" class="cover-img">
+    <div class="update-card-wrapper">
+        <div class="update-card">
+            
+            <div class="xp-title-bar">
+                <div class="title-bar-text">Update_Log.exe</div>
+                <div class="title-bar-controls">
+                    <div class="window-btn">_</div>
+                    <div class="window-btn">□</div>
+                    <div class="window-btn btn-close">X</div>
+                </div>
+            </div>
 
-    <div class="update-card">
-        <div class="version-info">
-            <span class="badge">Update 2.0.0</span>
-            <span style="opacity: 0.6;">April 26, 2026</span>
+            <div class="card-content-inner">
+                <img src="coverart.png" alt="Update Cover" class="cover-img">
+
+                <div class="version-info">
+                    <span class="badge">Update 2.0.0</span>
+                    <span style="opacity: 0.6;">April 26, 2026</span>
+                </div>
+                
+                <h2>Hell Dimension</h2>
+                <p>A new Dimension has been added as well as fixes and patches to the game.</p>
+
+                <h3 class="section-title">New Mechanics</h3>
+                <ul>
+                    <li><strong>Keypad:</strong> Ä̶̡́ ̷̙͝n̴̡͆e̸̹̋w̶͔̎ ̷͖̄m̷̼̒i̸͝ͅs̶̬̊t̷̘͐ẹ̷͠r̶̯͌ĭ̴̦ò̶̩ự̶s̸̜̃ ̷̯̕k̸̢̈́ẻ̴͎ý̵̪p̴͖͋ą̴͘d̵̖̀ ̵͚̏t̸̞̾h̵͚̉a̴͔̓t̵̡̕ ̶̨͒h̴͎͑i̸̥̊ḏ̵̀e̷̪͐s̶̻̉ ̵͖͋i̴̩͆t̸͕̀s̸͎̈ ̴̦̌s̶̬̔é̸̘c̴͕͛r̷̺̿ě̵̜t̵͙͘s̵̙̊.</li>
+                    <li><strong>Hell Dimension & Items:</strong> New hell items added and bots and ambient.</li>
+                </ul>
+
+                <h3 class="section-title">Visuals & Performance</h3>
+                <ul>
+                    <li>Optimized Pixel Rendering</li>
+                    <li>Added options menu thats still Work in Progress</li>
+                </ul>
+
+                <h3 class="section-title">Bug Fixes</h3>
+                <ul>
+                    <li>Fixed Exp System.</li>
+                    <li>Fixed Some Errors In Other Features.</li>
+                </ul>
+            </div>
+
         </div>
-        
-        <h2>Hell Dimension</h2>
-        <p>A new Dimension has been added as well as fixes and patches to the game</p>
-
-        <h3 class="section-title">New Mechanics</h3>
-        <ul>
-            <li><strong>Keypad:</strong> Ä̶̡́ ̷̙͝n̴̡͆e̸̹̋w̶͔̎ ̷͖̄m̷̼̒i̸͝ͅs̶̬̊t̷̘͐ẹ̷͠r̶̯͌ĭ̴̦ò̶̩ự̶s̸̜̃ ̷̯̕k̸̢̈́ẻ̴͎ý̵̪p̴͖͋ą̴͘d̵̖̀ ̵͚̏t̸̞̾h̵͚̉a̴͔̓t̵̡̕ ̶̨͒h̴͎͑i̸̥̊ḏ̵̀e̷̪͐s̶̻̉ ̵͖͋i̴̩͆t̸͕̀s̸͎̈ ̴̦̌s̶̬̔é̸̘c̴͕͛r̷̺̿ě̵̜t̵͙͘s̵̙̊.</li>
-            <li><strong>Hell Dimension & Items:</strong> New hell items added and bots and ambient.</li>
-        </ul>
-
-        <h3 class="section-title">Visuals & Performance</h3>
-        <ul>
-            <li>Optimized Pixel Rendering</li>
-            <li>Added options menu thats still Work in Progress</li>
-        </ul>
-
-        <h3 class="section-title">Bug Fixes</h3>
-        <ul>
-            <li>Fixed Exp System.</li>
-            <li>Fixed Some Errors In Other Features.</li>
-        </ul>
     </div>
 
     <div class="footer">
@@ -220,14 +455,21 @@
     </div>
 </div>
 
-<div id="custom-cursor"></div>
+<div class="xp-taskbar">
+    <div class="start-btn">
+        <span style="font-size: 1.2rem; margin-right: 5px;">⊞</span> start
+    </div>
+    <div class="taskbar-text">
+        &copy; 2026 2D Development Team. Powered by GitHub Pages.
+    </div>
+</div>
 
 <script>
+    // Custom Cursor Logic
     const cursor = document.getElementById('custom-cursor');
 
     document.addEventListener('mousemove', (e) => {
         cursor.style.display = 'block';
-        // X and Y coordinates from the mouse
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     });
@@ -242,6 +484,14 @@
 
     document.addEventListener('mouseup', () => {
         cursor.style.transform = 'scale(1)';
+    });
+
+    // Theme Toggling Logic
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    
+    themeBtn.addEventListener('click', () => {
+        // Toggles the "theme-xp" class on the body tag
+        document.body.classList.toggle('theme-xp');
     });
 </script>
 
